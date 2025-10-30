@@ -1,0 +1,60 @@
+server:
+  port: 8087
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.r2dbc.core: DEBUG
+    com.bcad.framework: DEBUG
+
+spring:
+  application:
+    name: dashboard-service
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/?schema=public
+    username: postgres
+    password: L99r12d12m16
+    pool:
+      enabled: true
+      initial-size: 10
+      max-size: 10
+      max-idle-time: 30m
+
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/?schema=public
+    user: postgres
+    password: L99r12d12m16
+    locations: classpath:db/migration
+    out-of-order: true
+
+  jackson:
+    mapper:
+      accept_case_insensitive_properties: true
+
+  cloud:
+    vault:
+      enabled: true
+      trust-store: hashicorp/vault.jks
+      trust-store-password: P@ssw0rd
+
+  codec:
+    max-in-memory-size: 25MB
+    max-disk-usage: 25MB
+
+eureka:
+  renewalPercentThreshold: 0.85
+  server:
+    enable-self-preservation: false
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://localhost:3000/eureka/
